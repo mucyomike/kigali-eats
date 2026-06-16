@@ -75,11 +75,9 @@ const orderSchema = new mongoose.Schema({
 });
 
 // Update updatedAt on every save
-orderSchema.pre("save", function (next) {
+orderSchema.pre("save", function () {
   this.updatedAt = Date.now();
-  next();
 });
-
 const Order = mongoose.model("Order", orderSchema);
 
 export default Order;

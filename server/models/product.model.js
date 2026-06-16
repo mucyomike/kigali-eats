@@ -55,14 +55,13 @@ const productSchema = new mongoose.Schema({
 });
 
 // Auto-calculate average rating before saving
-productSchema.pre("save", function (next) {
+productSchema.pre("save", function () {
   if (this.ratings && this.ratings.length > 0) {
     const sum = this.ratings.reduce((acc, rating) => acc + rating.rating, 0);
     this.averageRating = sum / this.ratings.length;
   } else {
     this.averageRating = 0;
   }
-  next();
 });
 
 const Product = mongoose.model("Product", productSchema);

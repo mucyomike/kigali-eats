@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/layout/Navbar.jsx";
 import Footer from "./components/layout/Footer.jsx";
 import AdminLayout from "./components/layout/AdminLayout.jsx";
@@ -24,9 +24,12 @@ import Categories from "./pages/admin/Categories.jsx";
 import Contacts from "./pages/admin/Contacts.jsx";
 
 function App() {
+  const { pathname } = useLocation();
+  const isAdminPage = pathname.startsWith("/admin");
+
   return (
     <div className="app-shell">
-      <Navbar />
+      {!isAdminPage && <Navbar />}
       <Toaster position="top-right" />
       <main>
         <Routes>
@@ -89,7 +92,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Footer />
+      {!isAdminPage && <Footer />}
     </div>
   );
 }

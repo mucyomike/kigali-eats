@@ -9,7 +9,6 @@ const categorySchema = new mongoose.Schema({
   },
   slug: {
     type: String,
-    required: true,
     unique: true,
     lowercase: true,
   },
@@ -25,9 +24,9 @@ const categorySchema = new mongoose.Schema({
   },
 });
 
-// Auto-generate slug from name if not provided
-categorySchema.pre("save", function (next) {
-  if (!this.slug && this.name) {
+// Auto-generate slug from name before validation
+categorySchema.pre("validate", function () {
+  if (this.name && !this.slug) {
     this.slug = this.name
       .toLowerCase()
       .trim()
@@ -35,7 +34,6 @@ categorySchema.pre("save", function (next) {
       .replace(/\s+/g, "-")
       .replace(/-+/g, "-");
   }
-  next();
 });
 
 const Category = mongoose.model("Category", categorySchema);
